@@ -1,0 +1,29 @@
+
+        {
+            var zoomRange=[0.1,5];
+            
+            //
+            var oldZoom=curZoom;
+            curZoom+=zooming;
+            curZoom=Math.min(Math.max(curZoom, zoomRange[0]), zoomRange[1]);
+            var zoomDif=curZoom-oldZoom;
+            
+            curPos[0]+=scrolling[0]*curZoom;
+            curPos[1]+=scrolling[1]*curZoom;
+
+            curPos[0]+=(cursor[0]-screenSize[0]*0.5)*zoomDif;
+            curPos[1]+=(cursor[1]-screenSize[1]*0.5)*zoomDif;
+        }
+        
+        camera.left=-screenSize[0]*0.5*curZoom;
+        camera.right=screenSize[0]*0.5*curZoom;
+        camera.bottom=-screenSize[1]*0.5*curZoom;
+        camera.top=screenSize[1]*0.5*curZoom;
+        
+        //scrolling=inputManager.get("look")?vec2_sub_vec2(cursor,cursorLast):[0,0];
+        
+        camera.position.x=-curPos[0];
+        camera.position.z=-curPos[1];
+        
+var curPos=[0,0];
+var curZoom=0.35;

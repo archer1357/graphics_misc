@@ -1,0 +1,226 @@
+CreateStencilState({})
+
+CreateProgram({
+	
+});
+draw(prog, indStart,indNum)
+    `
+        #version 300 es
+        
+        layout (location=0) in vec4 position;
+        layout (location=1) in vec3 color;
+        
+        out vec3 vColor;
+		
+		vec4 a_pos = attrib0;
+
+        void main() {
+
+            vColor = color;
+            gl_Position = position;
+        }
+    `
+	`
+        #version 300 es
+        precision highp float;
+		
+		vec3 col = varying0l
+		sampler2D colMap = tex0;
+        
+        in vec3 vColor;
+        out vec4 fragColor;
+
+        void main() {
+            fragColor = vec4(vColor, 1.0);
+        }
+    `
+{
+	"vertex_shader" : {
+		"inputs/attributes" : {
+			"a_pos" : {"location" : 0, "type" : "vec4"},
+			"0" : {"name" : "a_pos", "type" : "vec4"},
+		},
+		"samplers" : {
+		},
+		"outputs/varyings" : {
+			"v_col" : {},
+		}
+	},
+	"fragment_shader" : {
+		"inputs/varyings" : {
+			"v_col" : {},
+		},
+		"samplers" : {
+		},
+		"outputs/colors" : {
+			"fragColor" : 0,
+		}
+	},
+    "program" : {
+        "vertex_shader" : "",
+        "fragment_shader" : "",
+        "textures" : {"col_tex":0},
+        "attributes" : {"pos":0,"col":1},
+        "colors" : {"outcol":0},
+    },
+    "program2" : {
+        "vertex_shader" : "",
+        "fragment_shader" : "",
+        "textures" : {
+			"0" : {
+				"wrap_r" : "repeat",
+				"wrap_s" :"repeat",
+				"wrap_t" : "repeat",
+				"MAG_FILTER" : "linear",
+				"MIN_FILTER" : "NEAREST",
+			}
+		},
+        "attributes" : {
+			"0" : "vec4",
+			"1" : "vec3",
+		},
+		"varyings" : {
+			"0" : "vec3",
+		},
+        "colors" : {"outcol":0},
+    },
+	"uniforms" : {
+		"u_abc" : {
+			"val" : "",
+			"type" : "",
+		},
+	},
+
+	"vertex_buffers" : {
+		"0" : {},
+	},
+	"textures" : {
+		"0" : VAL
+	},
+	"samplers" : {
+		"0" : {
+			"wrap_r" : TEXTURE_WRAP_ENUM,
+			"wrap_s" : TEXTURE_WRAP_ENUM,
+			"wrap_t" : TEXTURE_WRAP_ENUM,
+			"MAG_FILTER" : "nearest|linear",
+			"MIN_FILTER" : "NEAREST|LINEAR|NEAREST_MIPMAP_NEAREST|LINEAR_MIPMAP_NEAREST|NEAREST_MIPMAP_LINEAR|LINEAR_MIPMAP_LINEAR",
+		}
+	},
+	
+	"depth" : {
+		"depth_test_enabled" : BOOLEAN.
+		"func" : { "func" : COMPARE_ENUM },
+	},
+	"stencil" : {
+		"stencil_test_enabled" : BOOLEAN.
+		"func_front" : { "func" : COMPARE_ENUM, "ref" : INT, "mask" : UINT },
+		"func_back" : { "func" : COMPARE_ENUM, "ref" : INT, "mask" : UINT },
+		"op_front" : { "fail" : STENCILOP_ENUM, "zfail" : STENCILOP_ENUM, "zpass" : STENCILOP_ENUM },
+		"op_back" : { "fail" : STENCILOP_ENUM, "zfail" : STENCILOP_ENUM, "zpass" : STENCILOP_ENUM },
+		
+		stencilFunc(enum func, int ref, uint mask);
+		stencilOp(enum fail, enum zfail, enum zpass);
+	}.
+	"blend" : {
+		"blend_enabled" : BOOLEAN.
+		"color" : { "red" : CLAMPF, "green" : CLAMPF, "blue" : CLAMPF, "alpha" : CLAMPF },
+		"equation" : { "modeRGB" : BLENDEQ_ENUM, "modeAlpha" : BLENDEQ_ENUM },
+		"func" : { "srcRGB" : BLENDFUNCSRC_ENUM, "dstRGB" : BLENDFUNCDST_ENUM, "srcAlpha" : BLENDFUNCSRC_ENUM, "dstAlpha" : BLENDFUNCDST_ENUM },
+		
+		 "blendEquation" : {"mode" : BLENDEQ_ENUM},
+		 "blendFunc" : {"sfactor" : BLENDFUNCSRC_ENUM, "dfactor" : BLENDFUNCDST_ENUM},
+	},
+	
+	"rasterization" : {
+		"cull_face_enabled" : BOOLEAN,
+		"cullFace" : { "mode" : CULLFACE_ENUM },
+		"frontFace" : { "mode" : FRONTFACE_ENUM },
+		"lineWidth" : { "width" : FLOAT },
+		"polygon_offset_fill_enabled" : BOOLEAN,
+		"polygonOffset" : { "factor" : FLOAT, "units" : FLOAT },		
+	},
+
+    "View and Clip" : {
+		"depthRange" : { "zNear" : FLOAT, "zFar" : FLOAT },
+		"scissor_test_enabled" : BOOLEAN,
+		"scissor" : { "x" : INT, "y" : INT, "width" : INT, "height" : INT },
+		"viewport" : { "x" : INT, "y" : INT, "width" : INT, "height" : INT },
+	},
+	
+	"Framebuffer stATES" : { 
+		"clear" : { "COLOR_BUFFER" : BOOLEAN, "DEPTH_BUFFER" : BOOLEAN, "STENCIL_BUFFER" : BOOLEAN}
+
+		"clearColor" : { "red" : CLAMPF, "green" : CLAMPF, "blue" : CLAMPF, "alpha" : CLAMPF },
+		"clearDepth" : { "depth" : FLOAT },
+
+		"clearStencil" : { "s" : INT },
+		"colorMask" : { "red" : BOOLEAN, "green" : BOOLEAN, "blue" : BOOLEAN, "alpha" : BOOLEAN },
+		"depthMask" : { "flag" : BOOLEAN },
+
+		"stencilMaskFront : { "mask" : UINT },
+		"stencilMaskBack : { "mask" : UINT },
+		stencilMask(uint mask); 
+	},
+	
+	"framebuffer" : {
+		"drawBuffers" : "none|back" | [0, .., n]
+	},
+}
+
+
+COMPARE_ENUM : "NEVER|ALWAYS|NOTEQUAL|EQUAL|LESS|GREATER|LEQUAL|GEQUAL"
+STENCILOP_ENUM : "KEEP|ZERO|REPLACE|INCR|DECR|INVERT|INCR_WRAP|DECR_WRAP"
+BLENDEQ_ENUM : "FUNC_ADD|FUNC_SUBTRACT|FUNC_REVERSE_SUBTRACT"
+BLENDFUNCSRC_ENUM : "ZERO|ONE|SRC_COLOR|DST_COLOR|SRC_ALPHA|DST_ALPHA|CONSTANT_COLOR|CONSTANT_ALPHA|ONE_MINUS_SRC_COLOR|ONE_MINUS_DST_COLOR|ONE_MINUS_SRC_ALPHA|ONE_MINUS_DST_ALPHA|ONE_MINUS_CONSTANT_COLOR|ONE_MINUS_CONSTANT_ALPHA|SRC_ALPHA_SATURATE"
+BLENDFUNCDST_ENUM : "ZERO|ONE|SRC_COLOR|DST_COLOR|SRC_ALPHA|DST_ALPHA|CONSTANT_COLOR|CONSTANT_ALPHA|ONE_MINUS_SRC_COLOR|ONE_MINUS_DST_COLOR|ONE_MINUS_SRC_ALPHA|ONE_MINUS_DST_ALPHA|ONE_MINUS_CONSTANT_COLOR|ONE_MINUS_CONSTANT_ALPHA"
+CULLFACE_ENUM : "BACK|FRONT|FRONT_AND_BACK"
+FRONTFACE_ENUM : "CCW|CW"
+TEXTURE_WRAP_ENUM : "CLAMP_TO_EDGE|MIRRORED_REPEAT|REPEAT|CLAMP_TO_BORDER"
+
+
+createBuffer({
+	"target" : "ARRAY|ELEMENT_ARRAY",
+	"usage" : "STATIC_DRAW|DYNAMIC_DRAW", (optional)
+	"size" : UINT, (optional if data used)
+	"data" : object (optional)
+});
+
+createVAO({
+	"0" : {
+		"buffer" : BUFFER,
+		"type" : "BYTE|SHORT|UNSIGNED_BYTE|UNSIGNED_SHORT|FIXED|FLOAT",
+		"size" : UINT,
+		"stride" : UINT,
+		"offset" : UINT,
+		"divisor" : UINT,
+		
+	},
+	"ind" : {
+		"buffer" : BUFFER,
+		"type":"UNSIGNED_BYTE|UNSIGNED_SHORT"
+	}
+});
+
+vao.draw({
+	"offset" : UINT,
+	"count" : UINT,
+	"mode" : "POINTS|LINE_STRIP|LINE_LOOP|LINES|TRIANGLE_STRIP|TRIANGLE_FAN|TRIANGLES"
+})
+
+
+
+createVAO({
+	"0" : {
+		"buffer" : BUFFER,
+		"type" : "BYTE|SHORT|UNSIGNED_BYTE|UNSIGNED_SHORT|FIXED|FLOAT",
+		"size" : UINT,
+		"stride" : UINT,
+		"offset" : UINT,
+		"divisor" : UINT,
+		
+	},
+	"index" : {
+		"buffer" : BUFFER,
+		"type":"UNSIGNED_BYTE|UNSIGNED_SHORT"
+	}
+});

@@ -1,0 +1,34 @@
+ifeq ($(OS),Windows_NT)
+ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+echo 'AMD64'
+endif
+
+ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+echo 'IA32'
+endif
+
+make -f Makefile.w32
+else
+UNAME_S := $(shell uname -s)
+UNAME_P := $(shell uname -p)
+
+ifeq ($(UNAME_P),x86_64)
+echo 'AMD64'
+endif
+
+ifneq ($(filter %86,$(UNAME_P)),)
+echo 'IA32'
+endif
+
+ifneq ($(filter arm%,$(UNAME_P)),)
+echo 'ARM'
+endif
+
+ifeq ($(UNAME_S),Linux)
+make -f Makefile.x11
+endif
+
+ifeq ($(UNAME_S),Darwin)
+echo 'TODO Darwin'
+endif
+endif

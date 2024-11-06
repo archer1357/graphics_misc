@@ -1,0 +1,43 @@
+
+var shaders={};
+
+function createVertexShader(name,src) {
+    var k=name+'_vs';
+    
+    shaders[k]=mygl.createShader(gl,gl.VERTEX_SHADER,src.trim(),(x)=>{
+        log(k+':\n'+x);
+    });
+}
+
+function createFragmentShader(name,src) {
+    var k=name+'_fs';
+    
+    shaders[k]=mygl.createShader(gl,gl.FRAGMENT_SHADER,src.trim(),(x)=>{
+        log(k+':\n'+x);
+    });
+}
+
+function createProgram(vsName,fsName,beforeLink) {
+    var k=vsName+' '+fsName;
+    var vs=shaders[vsName+'_vs'];
+    var fs=shaders[fsName+'_fs'];
+    
+    if(!vs || !fs) {
+        return null;
+    }
+    
+    return mygl.createProgram(gl,vs,fs,beforeLink,(x)=>{
+        log(k+':\n'+x);
+    });
+}
+
+
+//from http://etodd.io/2015/02/18/the-poor-mans-voxel-engine/
+float2x2 UVScaleRotation;
+float2 UVOffset;
+float2 CalculateUVs(float3 pos, float3 normal)
+{
+    float diff = length(pos * normal) * 2;
+    float2 uv = float2(diff + pos.x + (pos.z * normal.x), diff - pos.y + (pos.z * normal.y));
+    return mul(uv, UVScaleRotation) + UVOffset;
+}
